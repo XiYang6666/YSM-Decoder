@@ -37,10 +37,11 @@ public class Main {
             System.out.printf("YSM-Decoder v%s.%n", getVersion());
             return;
         }
+        if (cmd.hasOption("input") ^ cmd.hasOption("output")) {
+            System.err.printf("[Error] 未输入%s%n", cmd.hasOption("input") ? "output" : "input");
+            return;
+        }
         if (cmd.hasOption("input") && cmd.hasOption("output")) {
-            System.out.println(cmd.getOptionValue("input"));
-            System.out.println(cmd.getOptionValue("output"));
-
             File inputFile = new File(cmd.getOptionValue("input"));
             File outputDir = new File(cmd.getOptionValue("output"));
 
@@ -52,13 +53,14 @@ public class Main {
                 System.err.println("[Error] 输出目录无效");
                 return;
             }
+            System.out.println(Ansi.ansi().fg(Ansi.Color.GREEN).a("[Success] ").reset().a(String.format("开始解码 %s -> %s", inputFile, outputDir)));
 
             Map<String, byte[]> fileMap = YSMFile.loadYsmFile(inputFile);
             for (Map.Entry<String, byte[]> entry : fileMap.entrySet()) {
                 String fileName = entry.getKey();
                 byte[] fileData = entry.getValue();
                 File filePath = new File(outputDir, fileName);
-                if (!filePath.getParentFile().mkdirs()) {
+                if (!filePath.getParentFile().isDirectory() && !filePath.getParentFile().mkdirs()) {
                     System.out.println(Ansi.ansi().fg(Ansi.Color.YELLOW).a("[Warning] ").reset().a(String.format("无法创建文件夹: %s", filePath.getParent())));
                 }
                 try (FileOutputStream fos = new FileOutputStream(filePath)) {
@@ -68,8 +70,10 @@ public class Main {
                     System.out.println(Ansi.ansi().fg(Ansi.Color.YELLOW).a("[Warning] ").reset().a(String.format("无法写入文件: %s", fileName)));
                 }
             }
-            System.out.println(Ansi.ansi().fg(Ansi.Color.GREEN).a("[Success]").reset().a("done."));
+            System.out.println(Ansi.ansi().fg(Ansi.Color.GREEN).a("[Success] ").reset().a("done."));
+            return;
         }
+        System.out.println("[Info] 无操作，程序已退出");
     }
 
 
