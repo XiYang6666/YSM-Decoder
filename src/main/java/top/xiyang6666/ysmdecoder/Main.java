@@ -12,6 +12,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Map;
+import java.util.Properties;
 
 public class Main {
     public static void main(String[] args) throws IOException {
@@ -73,19 +74,14 @@ public class Main {
 
 
     public static String getVersion() {
-        String version = null;
+        String appVersion = null;
         try {
-            File pomFile = new File("pom.xml");
-            DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
-            DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
-            Document doc = dBuilder.parse(pomFile);
-            doc.getDocumentElement().normalize();
-
-            Node versionNode = doc.getElementsByTagName("version").item(0);
-            version = versionNode.getTextContent();
+            Properties properties = new Properties();
+            properties.load(Main.class.getClassLoader().getResourceAsStream("appinfo.properties"));
+            appVersion = properties.getProperty("app.version");
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return version;
+        return appVersion;
     }
 }
