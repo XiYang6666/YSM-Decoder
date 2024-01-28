@@ -45,7 +45,7 @@ public class Main {
                 System.err.println("[Error] 输入文件无效");
                 return;
             }
-            if (!outputDir.isDirectory()) {
+            if (!outputDir.isDirectory() && !outputDir.mkdirs()) {
                 System.err.println("[Error] 输出目录无效");
                 return;
             }
