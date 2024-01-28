@@ -106,6 +106,7 @@ public final class YSMFile {
         return Pair.of(fileName, dataBytes);
     }
 
+    @SuppressWarnings("unused")
     public static void saveYsmFile(File file) throws IOException {
         String fileName = file.getName();
         Collection<File> fileCollection = FileUtils.listFiles(file, FileFileFilter.INSTANCE, null);
@@ -198,17 +199,15 @@ public final class YSMFile {
 
     private static long byteArrayToLong(byte[] input) {
         long result = 0L;
-        byte[] array = input;
-        int arrayLength = input.length;
 
-        for (int i = 0; i < arrayLength; ++i) {
-            byte temp = array[i];
+        for (byte temp : input) {
             result = (result << 8) + (long) (temp & 255);
         }
 
         return result;
     }
 
+    @SuppressWarnings("unused")
     private static void writeFileName(ByteArrayOutputStream stream, String fileName) throws IOException {
         byte[] var2 = fileName.getBytes(StandardCharsets.UTF_8);
         stream.write(DataConverter.intToBytes(var2.length));

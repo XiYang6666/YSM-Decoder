@@ -2,12 +2,8 @@ package top.xiyang6666.ysmdecoder;
 
 import org.apache.commons.cli.*;
 import org.fusesource.jansi.Ansi;
-import org.w3c.dom.Document;
-import org.w3c.dom.Node;
 import top.xiyang6666.ysmdecoder.ysm.YSMFile;
 
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
