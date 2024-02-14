@@ -52,6 +52,10 @@ public class Main {
             System.out.println(Ansi.ansi().fg(Ansi.Color.GREEN).a("[Success] ").reset().a(String.format("开始解码 %s -> %s", inputFile, outputDir)));
 
             Map<String, byte[]> fileMap = YSMFile.loadYsmFile(inputFile);
+            if(fileMap.isEmpty()){
+                System.err.println("[Error] 解码失败");
+                return;
+            }
             for (Map.Entry<String, byte[]> entry : fileMap.entrySet()) {
                 String fileName = entry.getKey();
                 byte[] fileData = entry.getValue();
